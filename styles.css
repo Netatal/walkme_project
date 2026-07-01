@@ -38,7 +38,7 @@
 
 html {
   scroll-behavior: smooth;
-  scrollbar-gutter: stable both-edges;
+  scrollbar-gutter: stable;
 }
 
 body {
@@ -238,16 +238,16 @@ h1, h2, h3, p {
   display: block;
   width: 95%;
   height: auto;
-  filter: drop-shadow(0 0 6px rgba(0, 113, 245, 0.25)) drop-shadow(0 0 14px rgba(30, 250, 210, 0.12));
+  filter: drop-shadow(0 0 3px rgba(0, 113, 245, 0.18)) drop-shadow(0 0 6px rgba(30, 250, 210, 0.08));
   animation: card-edge-glow 8s ease-in-out infinite alternate;
 }
 
 @keyframes card-edge-glow {
   from {
-    filter: drop-shadow(0 0 4px rgba(0, 113, 245, 0.2)) drop-shadow(0 0 10px rgba(30, 250, 210, 0.1));
+    filter: drop-shadow(0 0 3px rgba(0, 113, 245, 0.18)) drop-shadow(0 0 6px rgba(30, 250, 210, 0.08));
   }
   to {
-    filter: drop-shadow(0 0 8px rgba(0, 113, 245, 0.3)) drop-shadow(0 0 18px rgba(30, 250, 210, 0.14));
+    filter: drop-shadow(0 0 5px rgba(0, 113, 245, 0.22)) drop-shadow(0 0 10px rgba(30, 250, 210, 0.1));
   }
 }
 
@@ -334,8 +334,17 @@ h1, h2, h3, p {
   display: block;
   width: 95%;
   height: auto;
-  filter: drop-shadow(0 0 18px rgba(0, 113, 245, 0.55)) drop-shadow(0 0 40px rgba(30, 250, 210, 0.28));
-  animation: card-edge-glow 8s ease-in-out infinite alternate;
+  filter: drop-shadow(0 0 4px rgba(0, 113, 245, 0.25)) drop-shadow(0 0 10px rgba(30, 250, 210, 0.11));
+  animation: stat-art-glow 8s ease-in-out infinite alternate;
+}
+
+@keyframes stat-art-glow {
+  from {
+    filter: drop-shadow(0 0 3px rgba(0, 113, 245, 0.2)) drop-shadow(0 0 8px rgba(30, 250, 210, 0.09));
+  }
+  to {
+    filter: drop-shadow(0 0 6px rgba(0, 113, 245, 0.28)) drop-shadow(0 0 12px rgba(30, 250, 210, 0.13));
+  }
 }
 
 /* ---------- Section horizon transition ---------- */
