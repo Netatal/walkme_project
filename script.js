@@ -288,7 +288,7 @@ document.querySelectorAll("[data-interactive].btn").forEach((btn) => {
     const rect = btn.getBoundingClientRect();
     const x = e.clientX - rect.left - rect.width / 2;
     const y = e.clientY - rect.top - rect.height / 2;
-    btn.style.transform = `translate(${x * 0.06}px, ${y * 0.18 - 3}px) scale(1.03)`;
+    btn.style.transform = `translate(${x * 0.03}px, ${y * 0.03 - 2}px) scale(1.01)`;
   });
   btn.addEventListener("pointerleave", () => {
     btn.style.transform = "";
