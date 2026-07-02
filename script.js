@@ -28,6 +28,7 @@ if (heroChart && !reduceMotion) {
   const glow = heroChart.querySelector(".chart-line-glow");
   const startDot = heroChart.querySelector(".chart-start-dot");
   const peakGlow = heroChart.querySelector(".chart-peak-glow");
+  const endDot   = heroChart.querySelector(".chart-end-dot");
   const DRAW_MS = 1500;
   const BOUNCE_MS = 550;
   const BOUNCE_EASE = "cubic-bezier(0.34, 1.56, 0.64, 1)";
@@ -48,7 +49,7 @@ if (heroChart && !reduceMotion) {
       startDot.style.opacity = "0";
       startDot.style.transform = "scale(0)";
     }
-    [peakGlow].forEach((el) => {
+    [peakGlow, endDot].forEach((el) => {
       if (!el) return;
       el.style.transition = "none";
       el.style.opacity = "0";
@@ -69,7 +70,7 @@ if (heroChart && !reduceMotion) {
         startDot.style.opacity = "1";
         startDot.style.transform = "scale(1)";
       }
-      [peakGlow].forEach((el) => {
+      [peakGlow, endDot].forEach((el) => {
         if (!el) return;
         el.style.transition = `transform ${BOUNCE_MS}ms ${BOUNCE_EASE} ${DRAW_MS}ms, opacity 0.3s ease-out ${DRAW_MS}ms`;
         el.style.opacity = "1";
