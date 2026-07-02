@@ -188,37 +188,38 @@ if (statCounter) {
   }
 }
 
-// Stat cards carousel
+// Insights carousel — index-based, no autoplay, no loop, peek of next card
 (function () {
   const viewport  = document.querySelector(".carousel-viewport");
   const track     = document.querySelector(".carousel-track");
   const cards     = Array.from(document.querySelectorAll(".stat-card"));
-  const dots      = Array.from(document.querySelectorAll(".carousel-dot"));
-  if (!viewport || !track || !cards.length) return;
+  const prevBtn   = document.querySelector(".carousel-prev");
+  const nextBtn   = document.querySelector(".carousel-next");
+  const progress  = document.querySelector(".carousel-progress");
+  if (!viewport || !track || !cards.length || !prevBtn || !nextBtn) return;
 
   const N       = cards.length;
-  const GAP     = 20;   // must match CSS gap
+  const GAP     = 20;   // must match CSS gap on .stat-cards
   const ANIM_MS = 500;
   const EASE    = "cubic-bezier(0.25, 0.46, 0.45, 0.94)";
-
-  let active = 0; // current index, 0..N-1
+  let active = 0;
   let busy   = false;
-
-  // --- Helpers ---
 
   function cardSlotWidth() {
     return cards[0].offsetWidth + GAP;
   }
 
+  // Returns how far to shift the track left to center card at idx
   function calcT(idx) {
-    const center = idx * cardSlotWidth() + cards[0].offsetWidth / 2;
+    const cardW  = cards[0].offsetWidth;
+    const center = idx * cardSlotWidth() + cardW / 2;
     return center - viewport.offsetWidth / 2;
   }
 
   function applyTransform(idx, animate) {
     track.style.transition = animate ? `transform ${ANIM_MS}ms ${EASE}` : "none";
     if (!animate) void track.offsetWidth;
-    track.style.transform = `translateX(${-calcT(idx)}px)`;
+    track.style.transform  = `translateX(${-calcT(idx)}px)`;
   }
 
   function styleCards(idx) {
@@ -226,65 +227,37 @@ if (statCounter) {
       const d = Math.abs(i - idx);
       c.classList.toggle("is-active",   d === 0);
       c.classList.toggle("is-adjacent", d === 1);
-      c.classList.toggle("is-far",      d > 1);
+      c.classList.toggle("is-far",      d  > 1);
     });
   }
 
-  function styleDots(idx) {
-    dots.forEach((d, i) => d.classList.toggle("active", i === idx));
+  function updateControls(idx) {
+    prevBtn.disabled = idx === 0;
+    nextBtn.disabled = idx === N - 1;
+    if (progress) progress.textContent = `${idx + 1} / ${N}`;
   }
-
-  // --- Navigation ---
 
   function step(dir) {
     if (busy) return;
     const next = active + dir;
-    if (next < 0 || next >= N) return; // clamp at boundaries
-
+    if (next < 0 || next >= N) return;
     active = next;
     busy   = true;
     styleCards(active);
-    styleDots(active);
+    updateControls(active);
     applyTransform(active, true);
     setTimeout(() => { busy = false; }, ANIM_MS + 30);
   }
 
-  function jumpTo(idx) {
-    if (busy || idx === active) return;
-    active = idx;
-    busy   = true;
-    styleCards(active);
-    styleDots(active);
-    applyTransform(active, true);
-    setTimeout(() => { busy = false; }, ANIM_MS + 30);
-  }
-
-  // --- Events ---
-
-  dots.forEach((dot, i) => dot.addEventListener("click", () => { jumpTo(i); resetTicker(); }));
-
-  // Click left of active → prev; click right of active → next
-  cards.forEach((card, i) => {
-    card.style.cursor = "pointer";
-    card.addEventListener("click", () => {
-      if (i < active) step(-1); else step(+1);
-      resetTicker();
-    });
-  });
+  prevBtn.addEventListener("click", () => step(-1));
+  nextBtn.addEventListener("click", () => step(+1));
 
   // Keyboard
   viewport.setAttribute("tabindex", "0");
   viewport.addEventListener("keydown", e => {
-    if (e.key === "ArrowRight") { e.preventDefault(); step(+1); resetTicker(); }
-    if (e.key === "ArrowLeft")  { e.preventDefault(); step(-1); resetTicker(); }
+    if (e.key === "ArrowRight") { e.preventDefault(); step(+1); }
+    if (e.key === "ArrowLeft")  { e.preventDefault(); step(-1); }
   });
-
-  // Auto-advance — stops at the last card
-  let ticker = setInterval(() => { if (active < N - 1) step(+1); }, 4500);
-  function resetTicker() {
-    clearInterval(ticker);
-    ticker = setInterval(() => { if (active < N - 1) step(+1); }, 4500);
-  }
 
   // Recenter on resize
   let resizeTimer;
@@ -295,7 +268,7 @@ if (statCounter) {
 
   // Init
   styleCards(active);
-  styleDots(active);
+  updateControls(active);
   applyTransform(active, false);
 })();
 

@@ -442,8 +442,8 @@ h1, h2, h3, p {
   border: 1.5px solid transparent;
   border-radius: 20px;
   padding: 36px 28px;
-  width: 300px;
-  flex-shrink: 0;
+  width: clamp(273px, 29.4vw, 378px);
+  flex: 0 0 auto;
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -472,7 +472,7 @@ h1, h2, h3, p {
 }
 
 .stat-card .stat-card-label {
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.08em;
@@ -482,7 +482,7 @@ h1, h2, h3, p {
 .stat-card p,
 .stat-card .stat-card-body {
   font-weight: 400;
-  font-size: 15px;
+  font-size: 16px;
   line-height: 1.55;
   letter-spacing: 0.01em;
   color: #334155;
@@ -507,32 +507,61 @@ h1, h2, h3, p {
   transform: scale(0.91);
 }
 
-/* Dot navigation */
-.carousel-nav {
+/* Carousel controls: prev / progress / next */
+.carousel-controls {
   display: flex;
+  align-items: center;
   justify-content: center;
-  gap: 8px;
-  padding-top: 0;
-  margin-top: -6px;
+  gap: 16px;
+  padding-top: 28px;
+  padding-bottom: 8px;
   position: relative;
   z-index: 3;
 }
 
-.carousel-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
+.carousel-btn {
+  width: 44px;
+  height: 44px;
   border: none;
-  background: rgba(9, 9, 62, 0.18);
+  background: transparent;
+  color: #94a3b8;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
   padding: 0;
-  transition: background 0.3s ease, width 0.3s ease, border-radius 0.3s ease;
+  transition: color 0.2s ease, opacity 0.2s ease;
 }
 
-.carousel-dot.active {
-  width: 22px;
+.carousel-btn:hover:not(:disabled) {
+  color: #475569;
+}
+
+.carousel-btn:active:not(:disabled) {
+  color: #1e293b;
+}
+
+.carousel-btn:disabled {
+  opacity: 0.25;
+  cursor: default;
+}
+
+.carousel-btn:focus-visible {
+  outline: 2px solid var(--walkme-blue);
+  outline-offset: 3px;
   border-radius: 4px;
-  background: var(--walkme-dark);
+}
+
+.carousel-progress {
+  font-family: var(--font);
+  font-size: 14px;
+  font-weight: 500;
+  color: #64748b;
+  letter-spacing: 0.06em;
+  min-width: 44px;
+  text-align: center;
+  user-select: none;
 }
 
 /* ---------- Content 03 — orbit / why work breaks ---------- */
@@ -821,7 +850,7 @@ h1, h2, h3, p {
 
 /* ---------- Responsive ---------- */
 @media (max-width: 980px) {
-  .stat-card { width: 260px; }
+  /* stat-card width is JS-managed; no override needed */
 }
 
 @media (max-width: 860px) {
@@ -836,7 +865,6 @@ h1, h2, h3, p {
 }
 
 @media (max-width: 640px) {
-  .stat-card { width: 230px; }
   .content-01 {
     grid-template-columns: 1fr;
     text-align: center;
