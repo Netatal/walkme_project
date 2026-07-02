@@ -112,7 +112,7 @@ h1, h2, h3, p {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 26px clamp(24px, 6vw, 64px);
+  padding: 26px var(--section-pad-x);
   background: rgb(9, 9, 62);
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
@@ -121,7 +121,7 @@ h1, h2, h3, p {
 }
 
 .site-header.scrolled {
-  padding: 12px clamp(24px, 6vw, 64px);
+  padding: 12px var(--section-pad-x);
   box-shadow: 0 1px 0 rgba(255, 255, 255, 0.07), 0 4px 24px rgba(0, 0, 0, 0.45);
 }
 
@@ -287,6 +287,7 @@ h1, h2, h3, p {
   display: flex;
   flex-direction: column;
   gap: 20px;
+  padding-left: clamp(16px, 3vw, 48px);
 }
 
 .content-01 h2 {
